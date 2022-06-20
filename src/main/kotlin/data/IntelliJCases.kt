@@ -7,8 +7,8 @@ import com.intellij.ide.starter.project.ProjectInfo
 import kotlin.io.path.div
 
 
-object IntelliJCases : TestCaseTemplate(IdeProduct.IU) {
-    val IntelliJCommunityProject = getTemplate().withProject(
+object IntelliJCases : TestCaseTemplate(IdeProduct.IC) {
+    val CommunitySources = getTemplate().withProject(
         ProjectInfo(
             testProjectURL = "https://github.com/JetBrains/intellij-community/archive/master.zip",
             testProjectImageRelPath = { it / "intellij-community-master" }
@@ -17,5 +17,5 @@ object IntelliJCases : TestCaseTemplate(IdeProduct.IU) {
 }
 
 object TestCases {
-    val IJ = IntelliJCases
+    val IC = IntelliJCases
 }

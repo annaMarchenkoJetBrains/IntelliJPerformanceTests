@@ -17,13 +17,11 @@ repositories {
 }
 
 dependencies {
-    implementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testImplementation(kotlin("test"))
     implementation("com.jetbrains.intellij.ide:ide-starter:LATEST-TRUNK-SNAPSHOT")
     testImplementation("com.jetbrains.intellij.performanceTesting:performance-testing-commands:LATEST-TRUNK-SNAPSHOT")
     testImplementation("com.jetbrains.intellij.performanceTesting:performance-testing-maven-commands:LATEST-TRUNK-SNAPSHOT")
     testImplementation("com.jetbrains.intellij.performanceTesting:performance-testing-gradle-commands:LATEST-TRUNK-SNAPSHOT")
-    implementation("org.kodein.di:kodein-di:7.12.0")
     implementation("junit:junit:4.13.2")
 }
 

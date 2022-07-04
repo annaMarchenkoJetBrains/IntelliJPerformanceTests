@@ -29,4 +29,16 @@ class IntegrationPerformanceTests {
                 runTimeout = 15.minutes
             )
     }
+
+    @Test
+    fun helloWorldIndexing() {
+        val context = testContextFactory
+            .initializeTestRunner(testName.toPrintableWithClass(this::class), TestCases.IC.LocalProject)
+
+        context
+            .runIDE(
+                commands = CommandChain().exitApp(),
+                runTimeout = 5.minutes
+            )
+    }
 }

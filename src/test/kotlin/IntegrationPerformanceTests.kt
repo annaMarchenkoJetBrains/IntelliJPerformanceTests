@@ -1,5 +1,8 @@
 import com.intellij.ide.starter.downloadAndroidPluginProject
+import com.intellij.ide.starter.ide.IDETestContext
 import com.intellij.ide.starter.ide.command.CommandChain
+import com.intellij.metricsCollector.metrics.extractIndexingMetrics
+import com.intellij.metricsCollector.publishing.publishIndexingMetrics
 import com.jetbrains.performancePlugin.commands.chain.exitApp
 import data.TestCases
 import junit4.initStarterRule
@@ -16,29 +19,39 @@ class IntegrationPerformanceTests {
     @get:Rule
     val testContextFactory = initStarterRule()
 
+    val downloadPerformancePlugin: IDETestContext.() -> IDETestContext = {
+        pluginConfigurator.setupPluginFromPluginManager("com.jetbrains.performancePlugin", ideBuild = this.ide.build)
+        this
+    }
+
+
     @Test
     fun communitySourcesIndexing() {
         val context = testContextFactory
             .initializeTestRunner(testName.toPrintableWithClass(this::class), TestCases.IC.CommunitySources)
             .downloadAndroidPluginProject()
+            .downloadPerformancePlugin()
 
-        context
+        val result = context
             .setMemorySize(2 * 1024)
             .runIDE(
                 commands = CommandChain().exitApp(),
-                runTimeout = 15.minutes
+                runTimeout = 20.minutes
             )
+        extractIndexingMetrics(result).publishIndexingMetrics()
     }
 
     @Test
     fun helloWorldIndexing() {
         val context = testContextFactory
             .initializeTestRunner(testName.toPrintableWithClass(this::class), TestCases.IC.LocalProject)
+            .downloadPerformancePlugin()
 
-        context
+        val result = context
             .runIDE(
                 commands = CommandChain().exitApp(),
                 runTimeout = 5.minutes
             )
+        extractIndexingMetrics(result).publishIndexingMetrics()
     }
 }

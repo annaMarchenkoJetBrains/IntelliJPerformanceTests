@@ -1,0 +1,53 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.7.10"
+}
+
+group = "org.example"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+    maven { url = "https://www.jetbrains.com/intellij-repository/releases" }
+    maven { url = "https://www.jetbrains.com/intellij-repository/snapshots" }
+    maven { url = "https://cache-redirector.jetbrains.com/intellij-dependencies" }
+    maven { url = "https://cache-redirector.jetbrains.com/packages.jetbrains.team/maven/p/grazi/grazie-platform-public" }
+}
+
+dependencies {
+    /* also EAP-SNAPSHOT (e.g. 222-EAP-SNAPSHOT) and specific version of a public build can be used for
+       ide-starter
+       ide-metrics-collector
+       performance-testing-commands
+    */
+    testImplementation 'org.jetbrains.kotlin:kotlin-test:1.7.10'
+    implementation("com.jetbrains.intellij.tools:ide-starter:222.3345-EAP-CANDIDATE-SNAPSHOT")
+    implementation("com.jetbrains.intellij.tools:ide-metrics-collector:222.3345-EAP-CANDIDATE-SNAPSHOT") {
+        exclude group: 'io.ktor'
+    }
+    //implementation("com.jetbrains.intellij.tools:ide-metrics-collector:222-EAP-SNAPSHOT")
+    implementation("com.jetbrains.intellij.performanceTesting:performance-testing-commands:222.3345-EAP-CANDIDATE-SNAPSHOT")
+    implementation("junit:junit:4.13.2")
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10'
+}
+
+
+sourceSets.main {
+    java.srcDirs("src/main/kotlin")
+}
+
+compileKotlin {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+        freeCompilerArgs += [
+                "-version",
+                "-Xstrict-java-nullability-assertions",
+                "-Xjvm-default=enable",
+                "-Xuse-old-backend",
+                "-Xopt-in=kotlin.io.path.ExperimentalPathApi",
+                "-Xopt-in=kotlin.time.ExperimentalTime"
+        ]
+    }
+}

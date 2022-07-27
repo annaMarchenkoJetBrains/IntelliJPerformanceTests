@@ -7,7 +7,6 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    maven { url = "https://cache-redirector.jetbrains.com/maven-central" }
     maven { url = "https://www.jetbrains.com/intellij-repository/nightly" }
     maven { url = "https://www.jetbrains.com/intellij-repository/releases" }
     maven { url = "https://www.jetbrains.com/intellij-repository/snapshots" }
@@ -22,21 +21,18 @@ dependencies {
        performance-testing-commands
     */
     testImplementation 'org.jetbrains.kotlin:kotlin-test:1.7.10'
-    implementation ('com.jetbrains.intellij.tools:ide-starter:222-SNAPSHOT') {
-        exclude group: 'com.jetbrains.infra', module: 'download-pgp-verifier'
-        exclude group: 'io.ktor', module: 'ktor-network-jvm'
-        exclude group: 'com.jetbrains.intellij.remoteDev', module: 'remote-dev-util'
-        exclude group: 'com.jetbrains.intellij.platform', module: 'wsl-impl'
-    }
-    implementation("com.jetbrains.intellij.tools:ide-metrics-collector:222-SNAPSHOT") {
-        exclude group: 'io.ktor'
-    }
-    //implementation("com.jetbrains.intellij.tools:ide-metrics-collector:222-EAP-SNAPSHOT")
+    implementation ('com.jetbrains.intellij.tools:ide-starter:222-SNAPSHOT')
+    implementation("com.jetbrains.intellij.tools:ide-metrics-collector:222-SNAPSHOT")
     implementation("com.jetbrains.intellij.performanceTesting:performance-testing-commands:222-SNAPSHOT")
     implementation("junit:junit:4.13.2")
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10'
 }
 
+configurations {
+    implementation.exclude(group: 'io.ktor')
+    implementation.exclude(group: 'com.jetbrains.infra')
+    implementation.exclude(group: 'com.jetbrains.intellij.remoteDev')
+}
 
 sourceSets.main {
     java.srcDirs("src/main/kotlin")
@@ -52,7 +48,6 @@ compileKotlin {
                 "-version",
                 "-Xstrict-java-nullability-assertions",
                 "-Xjvm-default=enable",
-                "-Xuse-old-backend",
                 "-Xopt-in=kotlin.io.path.ExperimentalPathApi",
                 "-Xopt-in=kotlin.time.ExperimentalTime"
         ]

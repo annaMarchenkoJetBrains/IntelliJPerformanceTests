@@ -39,7 +39,6 @@ class IntegrationPerformanceTests {
         val context = testContextFactory
             .initializeTestRunner(testName.toPrintableWithClass(this::class), TestCases.IC.LocalProject)
 
-
         val result = context
             .runIDE(
                 commands = CommandChain().exitApp(),

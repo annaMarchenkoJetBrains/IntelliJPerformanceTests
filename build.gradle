@@ -7,6 +7,8 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven { url = "https://cache-redirector.jetbrains.com/maven-central" }
+    maven { url = "https://www.jetbrains.com/intellij-repository/nightly" }
     maven { url = "https://www.jetbrains.com/intellij-repository/releases" }
     maven { url = "https://www.jetbrains.com/intellij-repository/snapshots" }
     maven { url = "https://cache-redirector.jetbrains.com/intellij-dependencies" }
@@ -14,18 +16,23 @@ repositories {
 }
 
 dependencies {
-    /* also EAP-SNAPSHOT (e.g. 222-EAP-SNAPSHOT) and specific version of a public build can be used for
+    /* also EAP-SNAPSHOT (e.g. LATEST-EAP-SNAPSHOT or 222-EAP-SNAPSHOT) and specific version of a public build can be used for
        ide-starter
        ide-metrics-collector
        performance-testing-commands
     */
     testImplementation 'org.jetbrains.kotlin:kotlin-test:1.7.10'
-    implementation("com.jetbrains.intellij.tools:ide-starter:222.3345-EAP-CANDIDATE-SNAPSHOT")
-    implementation("com.jetbrains.intellij.tools:ide-metrics-collector:222.3345-EAP-CANDIDATE-SNAPSHOT") {
+    implementation ('com.jetbrains.intellij.tools:ide-starter:222-SNAPSHOT') {
+        exclude group: 'com.jetbrains.infra', module: 'download-pgp-verifier'
+        exclude group: 'io.ktor', module: 'ktor-network-jvm'
+        exclude group: 'com.jetbrains.intellij.remoteDev', module: 'remote-dev-util'
+        exclude group: 'com.jetbrains.intellij.platform', module: 'wsl-impl'
+    }
+    implementation("com.jetbrains.intellij.tools:ide-metrics-collector:222-SNAPSHOT") {
         exclude group: 'io.ktor'
     }
     //implementation("com.jetbrains.intellij.tools:ide-metrics-collector:222-EAP-SNAPSHOT")
-    implementation("com.jetbrains.intellij.performanceTesting:performance-testing-commands:222.3345-EAP-CANDIDATE-SNAPSHOT")
+    implementation("com.jetbrains.intellij.performanceTesting:performance-testing-commands:222-SNAPSHOT")
     implementation("junit:junit:4.13.2")
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10'
 }

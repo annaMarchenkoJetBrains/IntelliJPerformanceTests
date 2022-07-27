@@ -1,9 +1,4 @@
 /out/
 /build/
 /.gradle/
-/gradlew
-/gradlew.bat
-/gradle/wrapper/gradle-wrapper.jar
-/gradle/wrapper/gradle-wrapper.properties
-/.idea/jarRepositories.xml
-/.idea/workspace.xml
+/.idea/

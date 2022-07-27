@@ -1,5 +1,5 @@
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.7.10"
+    id "org.jetbrains.kotlin.jvm" version "1.6.21"
 }
 
 group = "org.example"
@@ -20,12 +20,21 @@ dependencies {
        ide-metrics-collector
        performance-testing-commands
     */
-    testImplementation 'org.jetbrains.kotlin:kotlin-test:1.7.10'
-    implementation ('com.jetbrains.intellij.tools:ide-starter:222-SNAPSHOT')
-    implementation("com.jetbrains.intellij.tools:ide-metrics-collector:222-SNAPSHOT")
-    implementation("com.jetbrains.intellij.performanceTesting:performance-testing-commands:222-SNAPSHOT")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+
+    implementation('com.jetbrains.intellij.tools:ide-starter:222-SNAPSHOT') {
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-common'
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
+    }
+    implementation("com.jetbrains.intellij.tools:ide-metrics-collector:222-SNAPSHOT") {
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-common'
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
+    }
+    implementation("com.jetbrains.intellij.performanceTesting:performance-testing-commands:222-SNAPSHOT") {
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-common'
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
+    }
     implementation("junit:junit:4.13.2")
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10'
 }
 
 configurations {
@@ -39,6 +48,22 @@ sourceSets.main {
 }
 
 compileKotlin {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+        freeCompilerArgs += [
+                "-version",
+                "-Xstrict-java-nullability-assertions",
+                "-Xjvm-default=enable",
+                "-Xopt-in=kotlin.io.path.ExperimentalPathApi",
+                "-Xopt-in=kotlin.time.ExperimentalTime"
+        ]
+    }
+}
+
+compileTestKotlin {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 

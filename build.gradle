@@ -22,15 +22,15 @@ dependencies {
     */
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
 
-    implementation('com.jetbrains.intellij.tools:ide-starter:222-SNAPSHOT') {
+    implementation('com.jetbrains.intellij.tools:ide-starter:LATEST-EAP-SNAPSHOT') {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-common'
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
     }
-    implementation("com.jetbrains.intellij.tools:ide-metrics-collector:222-SNAPSHOT") {
+    implementation("com.jetbrains.intellij.tools:ide-metrics-collector:LATEST-EAP-SNAPSHOT") {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-common'
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
     }
-    implementation("com.jetbrains.intellij.performanceTesting:performance-testing-commands:222-SNAPSHOT") {
+    implementation("com.jetbrains.intellij.performanceTesting:performance-testing-commands:LATEST-EAP-SNAPSHOT") {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-common'
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
     }

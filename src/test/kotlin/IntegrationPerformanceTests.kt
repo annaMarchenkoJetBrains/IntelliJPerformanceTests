@@ -2,7 +2,7 @@ import com.intellij.ide.starter.downloadAndroidPluginProject
 import com.intellij.ide.starter.ide.command.CommandChain
 import com.intellij.metricsCollector.metrics.extractIndexingMetrics
 import com.intellij.metricsCollector.publishing.publishIndexingMetrics
-import com.jetbrains.performancePlugin.commands.chain.exitApp
+import com.jetbrains.performancePlugin.commands.chain.*
 import data.TestCases
 import junit4.initStarterRule
 import junit4.toPrintableWithClass
@@ -35,13 +35,18 @@ class IntegrationPerformanceTests {
     }
 
     @Test
-    fun helloWorldIndexing() {
+    fun profilingIndexingHelloWorld() {
         val context = testContextFactory
             .initializeTestRunner(testName.toPrintableWithClass(this::class), TestCases.IC.LocalProject)
 
         val result = context
+            .setPathForSnapshots()
             .runIDE(
-                commands = CommandChain().exitApp(),
+                commands = CommandChain()
+                    .profileIndexing(testName.toPrintableWithClass(this::class))
+                    .waitForSmartMode()
+                    .stopProfile()
+                    .exitApp(),
                 runTimeout = 5.minutes
             )
         extractIndexingMetrics(result).publishIndexingMetrics()

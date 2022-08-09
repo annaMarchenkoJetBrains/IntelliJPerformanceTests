@@ -2,10 +2,16 @@
 
 ## How do tests work
 
-In order to write integration tests on different JetBrains products we use the library 
-**com.jetbrains.intellij.ide:ide-starter**
+In order to write integration tests on different JetBrains products we use following libraries 
 
-The library downloads the last newest EAP and runs tests on it.
+***com.jetbrains.intellij.tools:ide-starter***
+
+***com.jetbrains.intellij.tools:ide-metrics-collector***
+
+***com.jetbrains.intellij.performanceTesting:performance-testing-commands***
+
+
+**ide-starter** library downloads the latest public build and runs tests on it.
 
 The most important entities in the library are:
 
@@ -20,11 +26,14 @@ The most important methods in the library are:
 **initializeTestRunner(testName: String, testCase: TestCase)** 
 which creates an object of IDETestContext with all needed for IDE directories (***system*** dir, ***config*** dir, ***plugins*** dir and ***logs*** dir).
 
-You can call some really useful methods on this object in order to set up the IDE properly (like f.ex. setProfiler method)
+You can call some really useful methods on this object in order to set up the IDE properly (like f.ex. addVMOptionsPatch { this.addSystemProperty("", "")} method)
 
 **runIDE()**
-which creates a test script from commands which you passes to the method, runs IDE, executes these commands and kill IDE when the time defined in timeout is over and IDE is still alive
+which creates a test script from commands which you passes to the method, runs IDE, executes these commands and kill the IDE when the time defined in parameter timeout is over and IDE is still alive
 
+**ide-metrics-collector** library collects indexing metrics from the test's run and stores them as a json file in ***reports*** dir
+
+**performance-testing-commands** provides a way to create a test script with commands which will be executed in the test
 
 ## Tests' artifacts
 
@@ -35,7 +44,7 @@ Downloaded installers are stored under ***out/perf-startup/installers*** directo
 Downloaded plugins, JBRs, projects and unpacked builds are stored under ***out/perf-startup/cache*** directory
 
 ## Running tests
-You can try our framework by running the test ***IntegrationPerformanceTests.communitySourcesIndexing***
+You can try our framework by running the test ***IntegrationPerformanceTests.communitySourcesIndexing*** or any other test from IntegrationPerformanceTests.kt
 
 ## How to use another project in tests
 You can either put the project under ***projectsForTests*** or set a path to your project when you create an object of *TestCases* classes

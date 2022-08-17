@@ -8,7 +8,7 @@ import java.nio.file.Paths
 import kotlin.io.path.div
 
 
-object IntelliJCases : TestCaseTemplate(IdeProductProvider.IC) {
+object CommunityCases : TestCaseTemplate(IdeProductProvider.IC) {
     val CommunitySources = getTemplate().withProject(
         ProjectInfo(
             testProjectURL = "https://github.com/JetBrains/intellij-community/archive/master.zip",
@@ -24,6 +24,18 @@ object IntelliJCases : TestCaseTemplate(IdeProductProvider.IC) {
 
 }
 
+object UltimateCases : TestCaseTemplate(IdeProductProvider.IU) {
+
+    val LocalProject = getTemplate().withProject(
+        ProjectInfo(
+            testProjectDir = Paths.get(System.getProperty("user.dir"), "projectsForTests/hello-world")
+        )
+    )
+
+}
+
+
 object TestCases {
-    val IC = IntelliJCases
+    val IC = CommunityCases
+    val IU = UltimateCases
 }

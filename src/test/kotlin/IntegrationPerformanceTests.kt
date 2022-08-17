@@ -9,6 +9,7 @@ import junit4.toPrintableWithClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import java.nio.file.Paths
 import kotlin.time.Duration.Companion.minutes
 
 class IntegrationPerformanceTests {
@@ -47,6 +48,21 @@ class IntegrationPerformanceTests {
                     .waitForSmartMode()
                     .stopProfile()
                     .exitApp(),
+                runTimeout = 5.minutes
+            )
+        extractIndexingMetrics(result).publishIndexingMetrics()
+    }
+
+    @Test
+    fun indexingUltimateIntelliJ() {
+        val context = testContextFactory
+            .initializeTestRunner(testName.toPrintableWithClass(this::class), TestCases.IU.LocalProject)
+                //set license for IU IDE
+            .setLicense(Paths.get(System.getProperty("user.dir"), "out/license/idea.key"))
+
+        val result = context
+            .runIDE(
+                commands = CommandChain(),
                 runTimeout = 5.minutes
             )
         extractIndexingMetrics(result).publishIndexingMetrics()

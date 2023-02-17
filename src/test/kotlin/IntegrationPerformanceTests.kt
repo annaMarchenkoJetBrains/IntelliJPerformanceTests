@@ -23,7 +23,7 @@ class IntegrationPerformanceTests {
     @Test
     fun communitySourcesIndexing() {
         val context = testContextFactory
-            .initializeTestRunner(testName.toPrintableWithClass(this::class), TestCases.IC.CommunitySources)
+            .initializeTestContext(testName.toPrintableWithClass(this::class), TestCases.IC.CommunitySources)
             .downloadAndroidPluginProject()
 
         val result = context
@@ -38,7 +38,7 @@ class IntegrationPerformanceTests {
     @Test
     fun profilingIndexingHelloWorld() {
         val context = testContextFactory
-            .initializeTestRunner(testName.toPrintableWithClass(this::class), TestCases.IC.LocalProject)
+            .initializeTestContext(testName.toPrintableWithClass(this::class), TestCases.IC.LocalProject)
 
         val result = context
             .setPathForSnapshots()
@@ -56,7 +56,7 @@ class IntegrationPerformanceTests {
     @Test
     fun indexingUltimateIntelliJ() {
         val context = testContextFactory
-            .initializeTestRunner(testName.toPrintableWithClass(this::class), TestCases.IU.LocalProject)
+            .initializeTestContext(testName.toPrintableWithClass(this::class), TestCases.IU.LocalProject)
                 //set license for IU IDE
             .setLicense(Paths.get(System.getProperty("user.dir"), "out/license/idea.key"))
 

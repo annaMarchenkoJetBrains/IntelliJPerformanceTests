@@ -1,7 +1,9 @@
 package junit4
 
+import com.intellij.ide.starter.bus.StarterListener
 import com.intellij.ide.starter.ci.CIServer
 import com.intellij.ide.starter.ci.NoCIServer
+import com.intellij.ide.starter.config.ConfigurationStorage
 import com.intellij.ide.starter.ide.IDETestContext
 import com.intellij.ide.starter.process.killOutdatedProcessesOnUnix
 import com.intellij.ide.starter.runner.TestContainer
@@ -11,15 +13,15 @@ import org.junit.rules.ExternalResource
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
 
-fun initStarterRule(): JUnit4StarterRule = JUnit4StarterRule(useLatestDownloadedIdeBuild = false)
+fun initStarterRule(): JUnit4StarterRule = JUnit4StarterRule()
 
-class JUnit4StarterRule(
-    override var useLatestDownloadedIdeBuild: Boolean,
-    override var allContexts: MutableList<IDETestContext> = mutableListOf(),
+open class JUnit4StarterRule(
     override val setupHooks: MutableList<IDETestContext.() -> IDETestContext> = mutableListOf(),
     override val ciServer: CIServer = NoCIServer
 
 ) : ExternalResource(), TestContainer<JUnit4StarterRule> {
+
+    override lateinit var testContext: IDETestContext
 
     private lateinit var testDescription: Description
 
@@ -35,13 +37,13 @@ class JUnit4StarterRule(
     }
 
     override fun close() {
-        for (context in allContexts) {
-            catchAll { context.paths.close() }
-        }
+        catchAll { testContext.paths.close() }
     }
 
     override fun after() {
-        super.after()
+        StarterListener.unsubscribe()
         close()
+        ConfigurationStorage.instance().resetToDefault()
+        super.after()
     }
 }

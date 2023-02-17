@@ -1,5 +1,5 @@
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.6.21"
+    id "org.jetbrains.kotlin.jvm" version "1.8.0"
 }
 
 group = "org.example"
@@ -20,19 +20,19 @@ dependencies {
        ide-metrics-collector
        performance-testing-commands
     */
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0")
 
-    implementation('com.jetbrains.intellij.tools:ide-starter:LATEST-EAP-SNAPSHOT') {
-        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-common'
-        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
+    implementation('com.jetbrains.intellij.tools:ide-starter-squashed:LATEST-EAP-SNAPSHOT') {
+//        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-common'
+//        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
     }
-    implementation("com.jetbrains.intellij.tools:ide-metrics-collector:LATEST-EAP-SNAPSHOT") {
-        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-common'
-        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
+    implementation("com.jetbrains.intellij.tools:ide-metrics-collector-squashed:LATEST-EAP-SNAPSHOT") {
+//        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-common'
+//        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
     }
-    implementation("com.jetbrains.intellij.performanceTesting:performance-testing-commands:LATEST-EAP-SNAPSHOT") {
-        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-common'
-        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
+    implementation("com.jetbrains.intellij.tools:ide-performance-testing-commands-squashed:LATEST-EAP-SNAPSHOT") {
+//        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-common'
+//        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
     }
     implementation("junit:junit:4.13.2")
 }
@@ -48,11 +48,11 @@ sourceSets.main {
 }
 
 compileKotlin {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
         freeCompilerArgs += [
                 "-version",
                 "-Xstrict-java-nullability-assertions",
@@ -64,11 +64,11 @@ compileKotlin {
 }
 
 compileTestKotlin {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
         freeCompilerArgs += [
                 "-version",
                 "-Xstrict-java-nullability-assertions",
